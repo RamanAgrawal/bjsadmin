@@ -269,7 +269,7 @@ const OrderManagementPage: React.FC = () => {
               type="date"
               name="endDate"
               value={endDate}
-              onChange={handleDateChange}
+              onChange={handleDateChange} 
             />
             <FilterButton onClick={() => setCurrentPage(1)}>
               Apply
@@ -302,7 +302,7 @@ const OrderManagementPage: React.FC = () => {
                 <td>{order.id}</td>
                 <td>{order.created}</td>
                 <td>{order.customer}</td>
-                <td>{order.total}</td>
+                <td>${order.total}</td>
                 <td>
                   {order.profit}{" "}
                   <span
@@ -366,7 +366,7 @@ const OrderManagementPage: React.FC = () => {
                                 {item.discount}
                               </span>
                             </td>
-                            <td>{item.total}</td>
+                            <td>${item.total}</td>
                             <td>
                               <FaEllipsisH />
                             </td>
@@ -383,7 +383,7 @@ const OrderManagementPage: React.FC = () => {
                             Subtotal:
                           </td>
                           <td></td>
-                          <td>$2847.96 </td>
+                          <td>${order.total}</td>
                         </tr>
                         <tr>
                           <td></td>
@@ -411,7 +411,7 @@ const OrderManagementPage: React.FC = () => {
                           <td></td>
                           <td>
                             {" "}
-                            <span style={{ color: "red" }}>$150.32</span>
+                            <span style={{ color: "red" }}>$0</span>
                           </td>
                         </tr>
                         <tr>
@@ -425,7 +425,7 @@ const OrderManagementPage: React.FC = () => {
                             Total:
                           </td>
                           <td></td>
-                          <td> {order.total}</td>
+                          <td> ${+order.total+5.5}</td>
                         </tr>
                       </tbody>
                     </Table>
