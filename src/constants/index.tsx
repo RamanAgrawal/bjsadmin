@@ -73,25 +73,7 @@ export const links = [
   },
 ];
 
-interface Order {
-  id: string;
-  created: string;
-  customer: string;
-  total: string;
-  profit: string;
-  profitPercentage: string;
-  status: string;
-  items: OrderItem[];
-}
 
-interface OrderItem {
-  sku: string;
-  name: string;
-  price: string;
-  qty: string;
-  discount: string;
-  total: string;
-}
 
 export const  orders = [
   {

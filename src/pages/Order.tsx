@@ -354,7 +354,7 @@ const OrderManagementPage: React.FC = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {order.items.map((item, index) => (
+                        {order.items.map((item:any, index: number) => (
                           <tr key={index}>
                             <td></td>
                             <td>{item.sku}</td>
