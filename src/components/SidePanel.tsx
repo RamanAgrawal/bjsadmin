@@ -125,7 +125,7 @@ const SidePanel: FC<SidePanelProps> = ({ isCollapsed, setIsCollapsed }) => {
     if (window.innerWidth < 768) {
       setIsCollapsed(true);
     }
-  });
+  },[]);
 
   return (
     <SidebarContainer isCollapsed={isCollapsed}>
