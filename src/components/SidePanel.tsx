@@ -1,7 +1,7 @@
 import { Link, NavLink } from "react-router-dom";
 
 import styled, { css } from "styled-components";
-import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, FC, SetStateAction, useEffect } from "react";
 import { links } from "../constants";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
