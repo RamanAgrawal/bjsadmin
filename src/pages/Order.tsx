@@ -7,7 +7,11 @@ import { ContainerWrapper, Header } from "../components/styled";
 import { getStatusColors } from "../helper";
 import { orders } from "../constants";
 
-// Dummy data for orders
+//todo
+
+// find api for dummy order data
+//tables can be custom reusable component
+//edit order status
 
 const Tabs = styled.div`
   display: flex;
@@ -127,20 +131,74 @@ const PaginationWrapper = styled.div`
   }
 `;
 
+const DateRangeWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: absolute;
+`;
+
+const DateInput = styled.input`
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 0.8rem;
+`;
+
+const FilterButton = styled.button`
+  padding: 0.5rem 1rem;
+  background-color: #3b7dfe;
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-size: 0.8rem;
+
+  &:hover {
+    background-color: #3a6ed4;
+  }
+`;
+
 const OrderManagementPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>("Pending");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [expandedOrderId, setExpandedOrderId] = useState<string | null>(null);
+  const [startDate, setStartDate] = useState<string>("");
+  const [endDate, setEndDate] = useState<string>("");
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState<number>(1);
   const totalPages = Math.ceil(orders.length / itemsPerPage);
+  const [showDate, setShowDate] = useState<boolean>(false);
+
+  const handleDateDropDown = () => {
+    setShowDate(!showDate);
+  };
+
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
+
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
     setActiveTab("All");
   };
+
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if (name === "startDate") setStartDate(value);
+    if (name === "endDate") setEndDate(value);
+  };
+
+  const filterByDateRange = (orders: any[]) => {
+    if (!startDate || !endDate) return orders;
+    const start = new Date(startDate).getTime();
+    const end = new Date(endDate).getTime();
+    return orders.filter((order) => {
+      const createdDate = new Date(order.created).getTime();
+      return createdDate >= start && createdDate <= end;
+    });
+  };
+
   const toggleOrderDetails = (orderId: string) => {
     if (expandedOrderId === orderId) {
       setExpandedOrderId(null);
@@ -149,11 +207,13 @@ const OrderManagementPage: React.FC = () => {
     }
   };
 
-  const filteredOrders = orders
-    .filter((order) =>
-      order.id.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .filter((order) => activeTab === "All" || order.status === activeTab);
+  const filteredOrders = filterByDateRange(
+    orders
+      .filter((order) =>
+        order.id.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+      .filter((order) => activeTab === "All" || order.status === activeTab)
+  );
 
   return (
     <ContainerWrapper>
@@ -196,10 +256,25 @@ const OrderManagementPage: React.FC = () => {
           <FiSearch />
         </SearchInput>
         <FilterDropdown>
-          <select>
-            <option value="date-range">Filter by date range</option>
-            {/* Add more filter options here */}
-          </select>
+        <SearchInput>
+          <p onClick={handleDateDropDown}>Filter by date Range</p>  </SearchInput>
+          {showDate &&<DateRangeWrapper>
+            <DateInput
+              type="date"
+              name="startDate"
+              value={startDate}
+              onChange={handleDateChange}
+            />
+            <DateInput
+              type="date"
+              name="endDate"
+              value={endDate}
+              onChange={handleDateChange}
+            />
+            <FilterButton onClick={() => setCurrentPage(1)}>
+              Apply
+            </FilterButton>
+          </DateRangeWrapper>}
         </FilterDropdown>
       </div>
       <Table>
